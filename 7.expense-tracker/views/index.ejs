@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        input:-webkit-autofill{
+             -webkit-box-shadow: 0 0 0px 1000px #1f2937 inset !important;
+              -webkit-text-fill-color: white !important;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body style="background-color: black; color:white; margin:2vh  2vw">
+  <div style="display:flex;  width:100%; height:250px;  align-items: center; justify-content:center; gap:90px; margin-bottom: 20px; ">
+  <img src="credit-card.png" alt="img" height="250" width="200">
+    <h1 style="color:rgb(236, 3, 3)">Expense tracker</h1></div>
+
+    <div style="display:flex;  width:100%; align-items: center; justify-content:space-between;  ">
+     <P style="background-color: #1da1f2; 
+    border-radius:10px; width: fit-content; padding: 10px 30px 10px 30px; ">
+        categories</P>
+        <div style="display:flex;   align-items:center; gap:10px;  ">
+         <button id="idaddcategory" style=" background-color: rgb(76, 175, 80); color:white;  
+        font-size:35px; padding:0px 20px;  border:none; border-radius: 10px;   margin: 0px;
+
+        ">+</button>
+        
+         <button id="deletecategories" style=" background-color: rgba(19, 164, 255, 1); color:white;  
+        font-size:20px; padding:0px 20px; border:none; border-radius: 10px; height: 40px;  margin: 0px;
+        ">❌</button>
+        </div>
+  </div>
+
+
+      <div  style="width:100vw; margin-bottom:20px;  font-size: 20px; display:flex; flex-wrap:wrap; gap:10px;
+  ">
+        <%if(locals.categories){%>
+                <% categories.forEach(category => { %>
+                    <div style="display: flex;  align-items: center;">
+                       
+                    <div style="border:2px solid rgba(0, 0, 0, 0.531); border-radius:15px; color:white; 
+        padding:10px 20px; background-color: rgba(128, 128, 128, 0.357); 
+        ">
+            <p style="margin:0px; "><%= category.preference %></p></div>
+           <form action="/del" method="POST"  style="align-self: flex-start;">
+          <button type="submit" name="preference"  value="<%= category.preference %>" class="deletecategory" style="display:<%=locals.displayatdelcategory%>; margin:0; color:white; cursor: pointer;   background-color: #ff1515; border-radius: 5px; 
+          padding:0px 4px; font-size: 15px;
+          ">×</button></form>
+        </div>
+                <% }) %>
+       <% }%>
+    </div>
+   
+
+
+
+   
+
+<div style="display:flex;  width:100%; align-items: center; justify-content:space-between;  ">
+    <P style="background-color: #1da1f2; 
+    border-radius:10px; width: fit-content; padding: 10px 30px 10px 30px;">
+        Gallery</P>
+<div style="display:flex;   align-items:center; gap:10px;  ">
+         <button id="idaddexpense" style=" background-color: rgb(76, 175, 80); color:white;  
+        font-size:35px; padding:0px 20px;  border:none; border-radius: 10px;   margin: 0px;
+
+        ">+</button>
+         <button id="deleteexpenses" style=" background-color: rgba(19, 164, 255, 1); color:white;  
+        font-size:20px; padding:0px 20px; border:none; border-radius: 10px; height: 40px;  margin: 0px;
+        ">❌</button>
+</div>
+    </div>
+  <div style="height:100%; width:100%;  ;  font-size: 20px; display:flex; flex-wrap: wrap; justify-content: flex-start;
+  gap: 40px;
+  
+  ">
+
+   <% if (locals.expenses) { %>
+    <% expenses.forEach(expense => { %>
+          <div style="display: flex;  align-items: center;">
+        <div style="border:2px solid rgba(0, 0, 0, 0.531); border-radius:20px; color:white; height:50px; width:180px;
+        padding: 30px; padding-top: 10px; background-color: rgba(128, 128, 128, 0.357); display:flex; flex-wrap: wrap;
+        ">
+            <p style="margin:0px 0px 0px 30px; "><%= expense.category.preference %></p>
+
+            <form id="form" style="display:flex; gap:2px ">
+                <p style="margin-top: 5px;"> रु
+                    </p>
+        <input type="number"  style="height: 30px ; width:170px; color:white;
+          background:transparent; outline:none; border:transparent; font-size: 20px; margin-top:4px"
+          readonly value="<%=expense.cost%>"
+          /></form>
+           </div>
+    <form action="/expenses/expdelete" method="POST"  style="align-self: flex-start;">
+          <button type="submit" name="id"  value="<%= expense._id %>" class="deleteexpense" style="display:<%=locals.displayatdelexpense%>; margin:0; color:white; cursor: pointer;   background-color: #ff1515; border-radius: 5px; 
+          padding:0px 4px; font-size: 15px;
+          ">×</button></form></div>
+    <% }) %><% } %>
+    </div>
+
+
+
+    <!-- expense form hidden by default -->
+     
+     <div id="addexpense" style="display:<%=locals.display%>; justify-content: center; align-items: center; position:fixed; top:0; bottom:0; width:100vw;  height: 100vh;
+     background-color: rgba(0, 0, 0, 0.69);
+     ">
+    <form id="expenseform" action="/expenses" method="POST" style=" height:auto;  min-height:250px; width: 500px; display:flex; flex-direction: column; 
+    gap:9vh;  padding: 4vh 1vw; background-color:#1f2937;  border: 1px solid #e5e7eb ; 
+    border-radius: 20px;  " >
+    <div style="display:flex; flex-direction: column; justify-content:center; gap:10px;">
+         <% if (locals.error) { %>
+            <div  style="text-align:center; color:red; font-size:20px;"><%=error%></div>
+                <% } %>
+                <p style="text-align:center; font-size: 32px; 
+                font-weight: 600; margin: 0;"
+                >Add a New Expense</p></div>
+       <div style="display:flex; flex-direction: column ;align-items: center;  width: 100%; max-width:500px; gap:10px; ">
+        <select style="height: 40px;  width: fit-content; padding: 0px 20px 0px 20px;  text-align: center; font-size:15px;  
+        background-color: transparent;  color:rgb(107,114,128); outline: none; border: none; border-bottom: 2px solid rgb(209,213,219);
+
+        "
+         name="category" >
+            <% if (locals.categories) { %>
+                <option selected>Choose a Category</option>
+        <% categories.forEach(category => { %>
+         <option><%=category.preference%></option>
+        <% }) %> <% } %>
+        </select>
+        <div style=" display:flex; align-items:  center;  border:none; width: fit-content; ">
+        <input type="text" value="रु." readonly style="height: 40px; width:15px; font-size:20px; outline: none; border:none; 
+        background-color: transparent; color:white;  border-bottom: 2px solid rgb(209,213,219)
+        ">
+        <input type="text" name="cost" style="width:100px; height: 40px; font-size:20px;  border: none; outline:none; 
+        background-color: transparent; color:white; border-bottom: 2px solid rgb(209,213,219);
+         " oninput="this.value=this.value.replace(/[^0-9.]/g,'')">
+        </div>
+        
+        
+        </div>
+
+        
+        <button type="submit" style="background-color: rgb(29, 78, 216); padding:10px 70px 10px 70px;
+        color:white; border:none; font-size: 22px; border-radius: 8px; width: fit-content; align-self: center;">
+            submit
+        </button>
+
+
+    </form>
+    </div>
+
+             <!-- addcategory hidden -->
+     <div id="addcategory" style="display:<%=locals.displayatcategory%>; justify-content: center; align-items: center; position:fixed; top:0; bottom:0; width:100vw;  height: 100vh;
+     background-color: rgba(0, 0, 0, 0.69);
+     ">
+    <form id="categoryform" action="/" method="POST" style=" height:auto;  min-height:250px; width: 500px; display:flex; flex-direction: column; 
+    gap:9vh;  padding: 4vh 1vw; background-color:#1f2937;  border: 1px solid #e5e7eb ; 
+    border-radius: 20px;  " >
+    <div style="display:flex; flex-direction: column; justify-content:center; gap:10px;">
+         <% if (locals.erroratcategory) { %>
+            <div  style="text-align:center; color:red; font-size:20px;"><%=erroratcategory%></div>
+                <% } %>
+                <p style="text-align:center; font-size: 32px; 
+                font-weight: 600; margin: 0;"
+                >Add a New Category</p></div>
+
+       <div style="display:flex; flex-direction: column ;align-items: center;  width: 100%; max-width:500px; gap:10px; ">
+        <input type="text" name="category" placeholder="Name your category..." style="width:300px; height: 40px; font-size:18px;  border: none; outline:none; 
+        background-color: transparent; color:white; border-bottom: 2px solid rgb(209,213,219);
+         ">
+        </div>
+
+        <button type="submit" style="background-color: rgb(29, 78, 216); padding:10px 70px 10px 70px;
+        color:white; border:none; font-size: 22px; border-radius: 8px; width: fit-content; align-self: center;">
+            submit
+        </button>
+
+
+    </form>
+    </div>
+    <script>
+        const idaddexpense=document.getElementById("idaddexpense");
+        const idaddcategory=document.getElementById("idaddcategory");
+        const addexpense=document.getElementById("addexpense");
+        const expenseform=document.getElementById("expenseform")
+        const addcategory=document.getElementById("addcategory");
+        const deletecategories=document.getElementById("deletecategories"); 
+         const deletecategory=document.querySelectorAll(".deletecategory");
+          const deleteexpenses=document.getElementById("deleteexpenses"); 
+        const deleteexpense=document.querySelectorAll(".deleteexpense"); 
+        idaddexpense.addEventListener("click",()=>{
+            if(addexpense.style.display==='none'){
+            addexpense.style.display="flex";
+
+              }
+           else
+           addexpense.style.display='none'
+        })
+        idaddcategory.addEventListener("click",()=>{
+            if(addcategory.style.display==='none'){
+            addcategory.style.display="flex";
+              }
+           else
+           addcategory.style.display='none'
+        })
+
+        document.addEventListener("click",(e)=>{
+                if(e.target==addexpense){
+                     addexpense.style.display='none'
+                }
+                if(e.target==addcategory){
+                     addcategory.style.display='none'
+                }
+        })
+
+        deletecategories.addEventListener("click",()=>{
+            deletecategory.forEach(categ=>{
+            if(categ.style.display==="none")
+            categ.style.display="flex";
+            else if (categ.style.display==="flex")
+            categ.style.display="none";
+            })
+        })
+
+        deleteexpenses.addEventListener("click",()=>{
+            deleteexpense.forEach(exp=>{
+            if(exp.style.display==="none")
+            exp.style.display="flex";
+            else if (exp.style.display==="flex")
+            exp.style.display="none";
+            })
+        })
+    </script>
+</body>
+</html>
