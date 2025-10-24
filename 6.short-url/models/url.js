@@ -13,6 +13,7 @@ const urlSchema=new mongoose.Schema({
     },
     clicks:
        [{type:Number}] ,
+    createdBy:{type:mongoose.Schema.Types.ObjectId,required:true,ref:"user"}
 
 },{timestamps:true})
 

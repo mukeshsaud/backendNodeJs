@@ -10,7 +10,7 @@
 <form method="POST" action="/url">
     <p>Enter your original url</p>
     <input name="url" placeholder="https://www.example.com"/>
-    <button type="submit">submiterre</button>
+    <button type="submit">submit</button>
 </form>
 <% if (locals.sid) { %>
  <p>Url generated : http://localhost:8000/url/<%= sid %></p>
@@ -22,6 +22,8 @@
         <th>ShortId</th>
         <th>RedirectrUrl</th>
         <th>clicks</th>
+        <th>created by</th>
+        <th>role</th>
      </thead>
      <tbody>   
        
@@ -31,6 +33,8 @@
          <td><%=url.shortId%></td>
          <td><%=url.redirectUrl%></td>
          <td><%=url.clicks.length%></td>
+         <td><%=url.createdBy.name%></td>
+         <td><%=url.createdBy.role%></td>
          </tr>
         <% }) %> 
     
