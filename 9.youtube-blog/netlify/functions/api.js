@@ -17,7 +17,8 @@ const app=express();
 mongoose.connect(process.env.MONGO_URL).then(()=>console.log("mongodb connected"));
 
 app.set('view engine','ejs');
-app.set("views",path.resolve("./views"))
+// app.set("views",path.resolve("./views"))
+app.set("views", path.join(__dirname, "../../views"));
 
 
 //middleware
