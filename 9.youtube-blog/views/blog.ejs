@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head")%>
+</head>
+<body>
+     <%- include('./partials/nav') %>
+<div class="container d-flex flex-column align-items-center">
+ 
+   <div class="d-flex justify-content-between align-items-center w-100">
+  <h1 class="mx-auto text-center flex-grow-1"><%= locals.Blog.title %></h1>
+
+  <p class="text-end mb-0">written BY: <img src=" <%= locals.Blog.createdBy.profileImgUrl %>" height="40px"/> <%= locals.Blog.createdBy.fullName %></p>
+</div>
+    <img src="<%=locals.Blog.coverImgUrl%>" alt=""   style="width: 300px; height: auto; object-fit: contain; border-radius: 8px; " >
+    <pre class="mt-5">
+       <%= locals.Blog.body%>
+    </pre>
+   <form class="row g-3" action="/comment/<%= locals.Blog._id %>" method="post">
+    <label for="inputPassword2" >comment (<%= comments.length %>)</label>
+    <% if (locals.user) { %>
+     
+
+  <div class="col-auto">
+   
+    <input type="text" name="content" class="form-control " id="inputPassword2" placeholder="enter your comment">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">post</button>
+  </div>   <% } %>
+  <div class="row mt-3 d-flex">
+<% locals.comments.forEach(comment => { %>
+  <div>
+  <img src="<%=comment.createdBy.profileImgUrl%>" alt="" height="40px">
+  <%=comment.createdBy.fullName %> 
+  <pre><%=comment.content %> </pre>
+</div>
+<% }) %>
+</div>
+</form>
+
+      <%- include('./partials/scripts') %>
+</body>
+</html>

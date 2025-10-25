@@ -1,0 +1,10 @@
+[functions]
+  directory = "netlify/functions"
+  external_node_modules = ["express", "mongoose", "cookie-parser", "ejs", "multer", "jsonwebtoken"]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
