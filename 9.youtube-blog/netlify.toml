@@ -2,6 +2,7 @@
   directory = "netlify/functions"
   external_node_modules = ["express", "mongoose", "cookie-parser", "ejs", "multer", "jsonwebtoken"]
   node_bundler = "esbuild"
+  included_files = ["9.youtube-blog/views/**", "9.youtube-blog/public/**"]
 
 [[redirects]]
   from = "/*"
