@@ -13,8 +13,8 @@
   ]
   node_bundler = "esbuild"
   included_files = [
-    "views/**:views/**",
-    "public/**:public/**"
+    "views/**:
+    "public/**:
   ]
 
 [[redirects]]
