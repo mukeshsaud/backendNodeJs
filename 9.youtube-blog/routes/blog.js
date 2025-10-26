@@ -19,7 +19,7 @@ const router=express.Router();
 router.post("/add-blog",upload.single('coverImgUrl'), async function(req,res,next){
     const body=req.body;
  const user=req.user;
- const coverImgUrl="/uploaded/"+req.file.filename;
+ const coverImgUrl=req.file?"/uploaded/"+req.file.filename : null;
 
  try{
  const data=await blog.create({
